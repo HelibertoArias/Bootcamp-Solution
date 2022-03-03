@@ -1,0 +1,32 @@
+﻿ 
+ 1. Create a console app
+ 2. Create the StockPrice Class
+     public class StockPrice
+        {
+            public string Identifier { get; set; } = null!;
+            public DateTime TradeDate { get; set; }
+            public decimal? Open { get; set; }
+            public decimal? High { get; set; }
+            public decimal? Low { get; set; }
+            public decimal? Close { get; set; }
+            public int Volume { get; set; }
+            public decimal Change { get; set; }
+            public decimal ChangePercent { get; set; }
+        }
+	
+3. Try to get the information from the following web services
+    https://ps-async.fekberg.com/api/stocks/MSFT 
+    https://ps-async.fekberg.com/api/stocks/Googl 
+    https://ps-async.fekberg.com/api/stocks/Voya 
+    https://ps-async.fekberg.com/api/stocks/Hbi 
+    https://ps-async.fekberg.com/api/stocks/Foxf 
+
+4. You should implement Tasks(async/await) in order to improve the performance de application.
+5. You should add a little delay (2 to 4 seconds) to simulate a slow connection.
+6. As result you should show this 
+    MSFT  Max change
+    Googl Min changePercent
+    Voya Avergate volume
+    Hbi Num of records
+    Foxf Min change
+ 

@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TradeProcessorConsoleApp.Version02;
+
+//=================================================================================
+/*
+        .____           __ /\                         .___      
+        |    |    _____/  |)/ ______   ____  ____   __| _/____  
+        |    |  _/ __ \   __\/  ___/ _/ ___\/  _ \ / __ |/ __ \ 
+        |    |__\  ___/|  |  \___ \  \  \__(  <_> ) /_/ \  ___/ 
+        |_______ \___  >__| /____  >  \___  >____/\____ |\___  >
+                \/   \/          \/       \/           \/    \/ 
+        (https://patorjk.com/software/taag/)
+
+ *  - Try to refactor this class using method only. New methods should be in the
+ *    same class.
+ *  - Take a look to these clues:
+ *      - // ReadTradeData
+ *      - // ParseTrades
+ *      - // LogMessage
+ *      - // MapTradeDataToTradeRecord
+ *      - // StoreTrades
+ *   - If you need help, take a look to the file "TradeProcessor.after.txt" to see all the changes made.
+ *   
+ *   
+
+ *   
+ */
+//=================================================================================
+
+
+public class TradeProcessor
+{
+    // Stream class https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-6.0
+    // Some of the more commonly used streams that inherit from Stream are FileStream, and MemoryStream.
+    public void ProcessTrades(Stream stream)
+    {
+        
+    
+       
+    }
+
+    
+
+    private static float LotSize = 100000f;
+
+}

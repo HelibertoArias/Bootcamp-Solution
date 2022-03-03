@@ -1,0 +1,166 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TradeProcessorConsoleApp.Version03;
+
+//=================================================================================
+/* Let's refactor for abstraction  
+    __________                   .___      _________ 
+    \______   \ ____ _____     __| _/__.__.\_____   \
+     |       _// __ \\__  \   / __ <   |  |   /   __/
+     |    |   \  ___/ / __ \_/ /_/ |\___  |  |   |   
+     |____|_  /\___  >____  /\____ |/ ____|  |___|   
+            \/     \/     \/      \/\/       <___>      
+
+    Steps. 
+    Make sure your code run and store into the database to valid it.
+
+    1. Take a look to ParseTrades method, the validation section could refactor as  ValidateTradeData.
+    2. Move the method ReadTradeData to a new class called StreamTradeDataProvider
+    3. In TradeProcessor class fix your code recive in the constructor an instance StreamTradeDataProvider. Called tradeDataProvider to this parameters.
+       The new parameter should store in the class as a readOnlyField.
+    4. change List<string> lines = ReadTradeData(stream); to List<string> lines = tradeDataProvider.ReadTradeData(stream); in the class TradeProcessor
+ */
+
+//=================================================================================
+
+
+public class TradeProcessor
+{
+    // Stream class https://docs.microsoft.com/en-us/dotnet/api/system.io.stream?view=net-6.0
+    // Some of the more commonly used streams that inherit from Stream are FileStream, and MemoryStream.
+    public void ProcessTrades(Stream stream)
+    {
+        // ReadTradeData 
+        List<string> lines = ReadTradeData(stream);
+
+        // ParseTrades
+        List<TradeRecord> trades = ParseTrades(lines);
+
+        // StoreTrades
+        StoreTrades(trades);
+
+
+    }
+
+    private static List<TradeRecord> ParseTrades(List<string> lines)
+    {
+        var trades = new List<TradeRecord>();
+
+        var lineCount = 1;
+        foreach (var line in lines)
+        {
+            var fields = line.Split(new char[] { ',' });
+
+            if (fields.Length != 3)
+            {
+                // LogMessage
+                LogMessage("WARN: Line {0} malformed. Only {1} field(s) found.", lineCount, fields.Length);
+                continue;
+            }
+
+            if (fields[0].Length != 6)
+            {
+                // LogMessage
+                LogMessage("WARN: Trade currencies on line {0} malformed: '{1}'", lineCount, fields[0]);
+                continue;
+            }
+
+            int tradeAmount;
+            if (!int.TryParse(fields[1], out tradeAmount))
+            {
+                // LogMessage
+                LogMessage("WARN: Trade amount on line {0} not a valid integer: '{1}'", lineCount, fields[1]);
+            }
+
+            decimal tradePrice;
+            if (!decimal.TryParse(fields[2], out tradePrice))
+            {
+                // LogMessage
+                LogMessage("WARN: Trade price on line {0} not a valid decimal: '{1}'", lineCount, fields[2]);
+            }
+
+            // MapTradeDataToTradeRecord
+            TradeRecord trade = MapTradeDataToTradeRecord(fields);
+
+            trades.Add(trade);
+
+            lineCount++;
+        }
+
+        return trades;
+    }
+
+    private static void StoreTrades(List<TradeRecord> trades)
+    {
+        using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=TradeDatabase;Integrated Security=True;"))
+        {
+            connection.Open();
+            using (var transaction = connection.BeginTransaction())
+            {
+                foreach (var trade in trades)
+                {
+                    var command = connection.CreateCommand();
+                    command.Transaction = transaction;
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.CommandText = "dbo.insert_trade";
+                    command.Parameters.AddWithValue("@sourceCurrency", trade.SourceCurrency);
+                    command.Parameters.AddWithValue("@destinationCurrency", trade.DestinationCurrency);
+                    command.Parameters.AddWithValue("@lots", trade.Lots);
+                    command.Parameters.AddWithValue("@price", trade.Price);
+
+                    command.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+            }
+            connection.Close();
+        }
+
+        //LogMessage
+        LogMessage("INFO: {0} trades processed", trades.Count);
+    }
+
+    private static TradeRecord MapTradeDataToTradeRecord(string[] fields)
+    {
+        var sourceCurrencyCode = fields[0].Substring(0, 3);
+        var destinationCurrencyCode = fields[0].Substring(3, 3);
+        int tradeAmount = int.Parse(fields[1]);
+        decimal tradePrice = decimal.Parse(fields[2]);
+
+        var trade = new TradeRecord
+        {
+            SourceCurrency = sourceCurrencyCode,
+            DestinationCurrency = destinationCurrencyCode,
+            Lots = tradeAmount / LotSize,
+            Price = tradePrice
+        };
+        return trade;
+    }
+
+    private static List<string> ReadTradeData(Stream stream)
+    {
+        var lines = new List<string>();
+        using (var reader = new StreamReader(stream))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                lines.Add(line);
+            }
+        }
+
+        return lines;
+    }
+
+    private static void LogMessage(string message, params object[] arg)
+    {
+        Console.WriteLine(message, arg);
+    }
+
+    private static float LotSize = 100000f;
+
+}
