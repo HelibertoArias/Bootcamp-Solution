@@ -82,9 +82,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeProcessorConsoleApp", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DelegateFuncConsoleApp", "src\14-SOLID\DelegateFuncConsoleApp\DelegateFuncConsoleApp.csproj", "{7CD0A87F-2088-49D5-8563-61A98D0F63A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskWebServicesConsoleApp", "src\11-Task-Threads\TaskWebServicesConsoleApp\TaskWebServicesConsoleApp.csproj", "{7A5994CB-8D74-4C70-9FD2-4F02472CE802}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskWebServicesConsoleApp", "src\11-Task-Threads\TaskWebServicesConsoleApp\TaskWebServicesConsoleApp.csproj", "{7A5994CB-8D74-4C70-9FD2-4F02472CE802}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercise", "Exercise", "{16141274-436F-45C4-9472-A9E9BE36089C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "15-Desing-Patterns", "15-Desing-Patterns", "{73D32268-7367-4249-BD8B-0CE6E032EF00}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "16-Architectural-Patterns", "16-Architectural-Patterns", "{CF9AC40D-D430-400B-ADCD-642C1AB040A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01-Rocco.UI", "src\16-Architectural-Patterns\LayeredArchitecture\Rocco.UI\01-Rocco.UI.csproj", "{50505D61-B6B1-40F1-8D5F-31BE43424C79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02-Rocco.Business", "src\16-Architectural-Patterns\LayeredArchitecture\Rocco.Business\02-Rocco.Business.csproj", "{6DB20503-E26B-459C-9978-0A8BCC5A630E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03-Rocco.DataAccess", "src\16-Architectural-Patterns\LayeredArchitecture\Rocco.DataAccess\03-Rocco.DataAccess.csproj", "{1E365019-6FAE-4A43-8877-03588F51A3E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "17-GraphQL", "17-GraphQL", "{A032B67C-20BF-477D-9CE2-CF8AEF243A24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoccoGraphQL", "src\15-GraphQL\RoccoGraphQL\RoccoGraphQL.csproj", "{D9103D93-5DA9-4608-9DCB-F914C966E911}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -188,6 +202,22 @@ Global
 		{7A5994CB-8D74-4C70-9FD2-4F02472CE802}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A5994CB-8D74-4C70-9FD2-4F02472CE802}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A5994CB-8D74-4C70-9FD2-4F02472CE802}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50505D61-B6B1-40F1-8D5F-31BE43424C79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50505D61-B6B1-40F1-8D5F-31BE43424C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50505D61-B6B1-40F1-8D5F-31BE43424C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50505D61-B6B1-40F1-8D5F-31BE43424C79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DB20503-E26B-459C-9978-0A8BCC5A630E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DB20503-E26B-459C-9978-0A8BCC5A630E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DB20503-E26B-459C-9978-0A8BCC5A630E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DB20503-E26B-459C-9978-0A8BCC5A630E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E365019-6FAE-4A43-8877-03588F51A3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E365019-6FAE-4A43-8877-03588F51A3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E365019-6FAE-4A43-8877-03588F51A3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E365019-6FAE-4A43-8877-03588F51A3E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9103D93-5DA9-4608-9DCB-F914C966E911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9103D93-5DA9-4608-9DCB-F914C966E911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9103D93-5DA9-4608-9DCB-F914C966E911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9103D93-5DA9-4608-9DCB-F914C966E911}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -218,6 +248,10 @@ Global
 		{7CD0A87F-2088-49D5-8563-61A98D0F63A8} = {3E8CB499-5CFC-420B-947D-FB8AD747B9B4}
 		{7A5994CB-8D74-4C70-9FD2-4F02472CE802} = {16141274-436F-45C4-9472-A9E9BE36089C}
 		{16141274-436F-45C4-9472-A9E9BE36089C} = {0BE6DA36-3EE0-4607-8707-4C79D402C255}
+		{50505D61-B6B1-40F1-8D5F-31BE43424C79} = {CF9AC40D-D430-400B-ADCD-642C1AB040A0}
+		{6DB20503-E26B-459C-9978-0A8BCC5A630E} = {CF9AC40D-D430-400B-ADCD-642C1AB040A0}
+		{1E365019-6FAE-4A43-8877-03588F51A3E5} = {CF9AC40D-D430-400B-ADCD-642C1AB040A0}
+		{D9103D93-5DA9-4608-9DCB-F914C966E911} = {A032B67C-20BF-477D-9CE2-CF8AEF243A24}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCA473A7-81C1-4D8A-AAA3-FDFE62AAA476}
