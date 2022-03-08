@@ -3,6 +3,8 @@
 // </copyright>
 
 using Microsoft.EntityFrameworkCore;
+using RoccoGraphQL.Application.Contracts.Persistence;
+using RoccoGraphQL.Persistence.Repositories;
 
 namespace RoccoGraphQL.Persistence;
 public static class PersistenceServiceRegistration
@@ -26,7 +28,7 @@ public static class PersistenceServiceRegistration
 
         // Setting up repositories
         // Registering by one
-        //services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
         //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
         // Registering dynamically
