@@ -24,12 +24,13 @@ public static class PersistenceServiceRegistration
         }
         services.AddDbContext<RoccoContext>(options =>
           options.UseSqlServer(connectionConfiguration)
+            .EnableSensitiveDataLogging() // This allow to see the SQL operations in console
         );
 
         // Setting up repositories
         // Registering by one
         services.AddScoped<ICompanyRepository, CompanyRepository>();
-        //services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
         // Registering dynamically
         //services.AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));

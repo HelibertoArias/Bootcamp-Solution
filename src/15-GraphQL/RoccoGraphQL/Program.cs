@@ -18,14 +18,19 @@ builder.Services.AddPersistenceServices(configuration);
 // add company schema
 builder.Services.AddScoped<CompanyQuery>();
 builder.Services.AddScoped<ISchema, CompanySchema>(services => new CompanySchema(new SelfActivatingServiceProvider(services)));
+ 
 
-// register graphQL
+// register graphQL 
 builder.Services.AddGraphQL(options =>
 {
     options.EnableMetrics = true;
+
 })
+.AddDataLoader() // To improve performance using cache in data
 .AddSystemTextJson()
-.AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true);
+.AddErrorInfoProvider(opt =>
+                opt.ExposeExceptionStackTrace = true // Set to false to ommit "extension" in the reponse
+);
 
 builder.Services.AddCors(options =>
 {
@@ -56,9 +61,6 @@ if (app.Environment.IsDevelopment())
     app.UseGraphQLPlayground();
 }
 
- 
-
- 
 app.UseHttpsRedirection();
 
 app.UseCors();

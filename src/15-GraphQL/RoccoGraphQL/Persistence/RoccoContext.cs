@@ -27,7 +27,7 @@ public class RoccoContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Please put this in the Rocco.Persistence/Configuration folder
-        // modelBuilder.Entity<Emploee>().HasKey(x => x.Id);
+        // modelBuilder.Entity<Employee>().HasKey(x => x.Id);
 
         // Add All entity configurations in a dynamic way 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

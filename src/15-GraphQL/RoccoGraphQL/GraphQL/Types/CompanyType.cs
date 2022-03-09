@@ -2,20 +2,39 @@
 // Copyright (c) 2022, Heliberto Arias
 // </copyright>
 
+using GraphQL.DataLoader;
 using GraphQL.Types;
+using RoccoGraphQL.Application.Contracts.Persistence;
 using RoccoGraphQL.Domain.Entities;
 
 namespace RoccoGraphQL.GraphQL.Types;
 
-public class CompanyType: ObjectGraphType<Company>
+public class CompanyType : ObjectGraphType<Company>
 {
-    public CompanyType()
+    public CompanyType(IEmployeeRepository employeeRepository,
+                        IDataLoaderContextAccessor dataLoaderContextAccessor)
     {
-        Name = "Company";
+        Name = nameof(Company);
         Description = "Company Type";
-        //Field(x => x.Id);
-        Field(x => x.Name);
-        Field(x=>x.Address);
-        Field(x=>x.Country);
+        Field(x => x.Id);
+        Field(x => x.Name).Description("The name of the company");
+        Field(x => x.Address).Description("Max 200 characters");
+        Field(x => x.Country);
+        Field<ListGraphType<EmployeeType>>(
+            "employees",
+            resolve: context =>
+            {
+                // This will make a query per company
+                //return employeeRepository.FindAllByCondition(x => x.CompanyId == context.Source.Id, false).ToList();
+
+                // Improve performance reducing queries to the database
+                var loader = dataLoaderContextAccessor
+                            .Context
+                            .GetOrAddCollectionBatchLoader<Guid, Employee>(
+                    "GetEmployeesByCompany",
+                    employeeRepository.GetEmployeesByCompanyId);
+
+                return loader.LoadAsync(context.Source.Id);
+            });
     }
 }

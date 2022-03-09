@@ -8,5 +8,5 @@ using RoccoGraphQL.Domain.Entities;
 namespace RoccoGraphQL.Application.Contracts.Persistence;
 
 public interface IEmployeeRepository : IRepositoryBase<Employee>
-{
+{    Task<ILookup<Guid, Employee>> GetEmployeesByCompanyId(IEnumerable<Guid> companiesIds);
 }
