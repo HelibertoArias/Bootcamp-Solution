@@ -7,7 +7,7 @@ using GraphQL.Types;
 using RoccoGraphQL.Application.Contracts.Persistence;
 using RoccoGraphQL.GraphQL.Types;
 
-namespace RoccoGraphQL.GraphQL;
+namespace RoccoGraphQL.GraphQL.Features.Companies;
 
 public class CompanyQuery : ObjectGraphType
 {

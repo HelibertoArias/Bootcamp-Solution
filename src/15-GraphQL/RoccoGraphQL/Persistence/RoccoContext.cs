@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using RoccoGraphQL.Domain.Base;
 using RoccoGraphQL.Domain.Entities;
 
 namespace RoccoGraphQL.Persistence;
@@ -32,6 +33,26 @@ public class RoccoContext : DbContext
         // Add All entity configurations in a dynamic way 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    entry.Entity.CreatedDate = DateTime.Now;
+                    entry.Entity.CreatedBy = "JohnDoe";
+                    entry.Entity.IsDeleted = false;
+                    break;
+                case EntityState.Modified:
+                    entry.Entity.LastModifiedDate = DateTime.Now;
+                    entry.Entity.LastModifiedBy = "JaneDoe";
+                    break;
+            }
+        }
+        return base.SaveChangesAsync(cancellationToken);
     }
 }
 

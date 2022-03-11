@@ -6,7 +6,7 @@ using GraphQL.MicrosoftDI;
 using GraphQL.Server;
 using GraphQL.SystemTextJson;
 using GraphQL.Types;
-using RoccoGraphQL.GraphQL;
+using RoccoGraphQL.GraphQL.Features.Companies;
 using RoccoGraphQL.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,6 @@ builder.Services.AddPersistenceServices(configuration);
 // add company schema
 builder.Services.AddScoped<CompanyQuery>();
 builder.Services.AddScoped<ISchema, CompanySchema>(services => new CompanySchema(new SelfActivatingServiceProvider(services)));
- 
 
 // register graphQL 
 builder.Services.AddGraphQL(options =>
