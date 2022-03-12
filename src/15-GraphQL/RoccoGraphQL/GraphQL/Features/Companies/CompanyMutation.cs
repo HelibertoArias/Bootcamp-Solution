@@ -6,14 +6,15 @@ using GraphQL;
 using GraphQL.Types;
 using RoccoGraphQL.Application.Contracts.Persistence;
 using RoccoGraphQL.Domain.Entities;
+using RoccoGraphQL.GraphQL.Features.Companies.Messaging;
 using RoccoGraphQL.GraphQL.Types;
 
 namespace RoccoGraphQL.GraphQL.Features.Companies;
 
 public class CompanyMutation : ObjectGraphType
 {
-    public CompanyMutation(ICompanyRepository companyRepository)
-    {      
+    public CompanyMutation(ICompanyRepository companyRepository, CompanyMessageService messageService)
+    {
         FieldAsync<CompanyType>(
             "createCompany",
             arguments: new QueryArguments(new QueryArgument<NonNullGraphType<CompanyInputType>> { Name = "company" }),
@@ -22,6 +23,8 @@ public class CompanyMutation : ObjectGraphType
                 var company = context.GetArgument<Company>("company");
                 await companyRepository.Add(company).ConfigureAwait(false);
                 await companyRepository.SaveChangesAsync().ConfigureAwait(false);
+
+                messageService.AddCompanyAddedMessage(company);
                 return company;
             });
     }

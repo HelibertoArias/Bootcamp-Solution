@@ -3,6 +3,7 @@
 // </copyright>
 
 using GraphQL.Types;
+using RoccoGraphQL.GraphQL.Features.Companies.Messaging;
 
 namespace RoccoGraphQL.GraphQL.Features.Companies;
 
@@ -12,6 +13,7 @@ public class CompanySchema : Schema
     {
         Query = resolver.GetRequiredService<CompanyQuery>();
         Mutation = resolver.GetRequiredService<CompanyMutation>();
+        Subscription = resolver.GetRequiredService<CompanySubscription>();
 
     }
 }

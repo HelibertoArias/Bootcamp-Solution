@@ -4,9 +4,11 @@
 
 using GraphQL.MicrosoftDI;
 using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
 using GraphQL.SystemTextJson;
 using GraphQL.Types;
 using RoccoGraphQL.GraphQL.Features.Companies;
+using RoccoGraphQL.GraphQL.Features.Companies.Messaging;
 using RoccoGraphQL.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,28 +20,35 @@ builder.Services.AddPersistenceServices(configuration);
 // add company schema
 builder.Services.AddScoped<CompanyQuery>();
 builder.Services.AddScoped<ISchema, CompanySchema>(services => new CompanySchema(new SelfActivatingServiceProvider(services)));
+builder.Services.AddSingleton<CompanyMessageService>();
 
 // register graphQL 
 builder.Services.AddGraphQL(options =>
 {
     options.EnableMetrics = true;
+    
 
 })
-.AddDataLoader() // To improve performance using cache in data
+    .AddGraphTypes(ServiceLifetime.Scoped)
+ 
+
 .AddSystemTextJson()
 .AddErrorInfoProvider(opt =>
                 opt.ExposeExceptionStackTrace = true // Set to false to ommit "extension" in the reponse
-);
+).AddDataLoader() // To improve performance using cache in data
+.AddWebSockets();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.WithOrigins("*")
-                   .AllowAnyHeader();
-        });
-});
+builder.Services.AddCors();
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(
+//        builder =>
+//        {
+//            builder.WithOrigins("*")
+//                   .AllowAnyHeader()
+//                   .AllowAnyMethod();
+//        });
+//});
 
 // default setup
 builder.Services.AddControllers();
@@ -53,22 +62,24 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQLNetExample v1"));
 
-    // add playground UI to development only   
-    app.UseGraphQLPlayground();
+  
 }
 
 app.UseHttpsRedirection();
 
 app.UseCors();
 
+app.UseWebSockets();
+app.UseGraphQLWebSockets<CompanySchema>(path: "/graphql");
+app.UseGraphQL<ISchema>();
+// add playground UI to development only   
+app.UseGraphQLPlayground(new PlaygroundOptions() { GraphQLEndPoint = "/graphql" }, path: "/ui/playground");
+
 app.UseAuthorization();
 
-app.MapControllers();
-
-// make sure all our schemas registered to route
-app.UseGraphQL<ISchema>();
 
 app.Run();
