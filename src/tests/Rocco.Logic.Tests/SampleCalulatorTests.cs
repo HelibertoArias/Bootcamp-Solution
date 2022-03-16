@@ -48,8 +48,6 @@ public class SampleCalulatorTests
         Assert.Throws<ArgumentException>(() => sut.SumPositiveNumbers(a, b));
     }
 
-
-
     [Fact]
     public void SumBasic_Should_Sum_Negative_Positive_Values()
     {
@@ -67,9 +65,8 @@ public class SampleCalulatorTests
         Assert.Equal(expected, result);
     }
 
-
     [Theory]
-    [InlineData(0,0, 0)]
+    [InlineData(0, 0, 0)]
     [InlineData(-1, -1, -2)]
     public void SumBasic_Should_Sum_Negative_Positive_Values_InlineData(int a, int b, int expected)
     {
@@ -88,11 +85,10 @@ public class SampleCalulatorTests
         Assert.Equal(expected, result);
     }
 
-
     [Theory]
     [SumComplexData]
     public void SumComplex_Should_Sum_Negative_Positive_Values(Item a, Item b, int expected)
-    { 
+    {
         // Arrange
         var sut = new SimpleCalculator();
 

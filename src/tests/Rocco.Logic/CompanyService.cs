@@ -16,13 +16,25 @@ public class CompanyService
 
     public async Task<int> AddCompany(CompanyToAddDto companyDto)
     {
-        if (companyDto == null || string.IsNullOrEmpty(companyDto.Name))
+        if (companyDto == null)
         {
             throw new ArgumentNullException(nameof(companyDto));
         }
 
-        var exists = await _companyRepository.GetByCompanyName(companyDto.Name)
-                                 .ConfigureAwait(false);
+        /*
+            __________  ____  ____ 
+            /_  __/ __ \/ __ \/ __ \
+             / / / / / / / / / / / /
+            / / / /_/ / /_/ / /_/ / 
+           /_/  \____/_____/\____/  
+            */
+
+        // TODO: Throw a ValidationException if companyDto.Name is null,
+        // then add a test case to cover it
+
+        var exists = await _companyRepository
+                                .GetByCompanyName(companyDto.Name)
+                                .ConfigureAwait(false);
 
         if (exists != null)
         {
@@ -53,8 +65,6 @@ public class CompanyService
 
         return dtos.ToList();
     }
-
-
 
     public async Task DeleteCompany(int companyId)
     {

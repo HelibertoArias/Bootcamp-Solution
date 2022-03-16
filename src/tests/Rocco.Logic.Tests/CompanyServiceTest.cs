@@ -15,7 +15,7 @@ using Xunit;
 namespace Rocco.Logic.Tests;
 public class CompanyServiceTest
 {
-    [Fact]    
+    [Fact]
     public async void AddCompany_Should_Throw_ArgumentNullException_When_Company_Is_Null()
     {
         // Arrange
@@ -30,7 +30,6 @@ public class CompanyServiceTest
                                      .ConfigureAwait(false)
         ).ConfigureAwait(false);
 
-
         // Assert
 
     }
@@ -41,7 +40,7 @@ public class CompanyServiceTest
         // Arrange
         var companyRepositoryMock = new Mock<ICompanyRepository>();
         var companyService = new CompanyService(companyRepositoryMock.Object);
-        CompanyToAddDto CompanyToAddDto = new() { Name = "Acme"};
+        CompanyToAddDto CompanyToAddDto = new() { Name = "Acme" };
 
         companyRepositoryMock
             .Setup(x => x.GetByCompanyName(It.IsAny<string>()))
@@ -54,7 +53,6 @@ public class CompanyServiceTest
                                      .ConfigureAwait(false)
         ).ConfigureAwait(false);
 
-
         // Assert
     }
 
@@ -63,28 +61,31 @@ public class CompanyServiceTest
     {
         // Arrange
         var companyRepositoryMock = new Mock<ICompanyRepository>();
-        var companyService = new CompanyService(companyRepositoryMock.Object);
-        CompanyToAddDto CompanyToAddDto = new() { Name = "Acme"};
 
-        var idGenerated = 1 ;
+        var companyService = new CompanyService(companyRepositoryMock.Object);
+
+        CompanyToAddDto CompanyToAddDto = new() { Name = "Acme" };
+
+        var idGenerated = 1;
         var idExpected = 1;
 
         companyRepositoryMock
             .Setup(x => x.AddCompany(It.IsAny<Company>()))
+
             .ReturnsAsync(idGenerated);
 
         // Act
 
         var result = await companyService.AddCompany(CompanyToAddDto)
-                                         .ConfigureAwait(false);
 
+                                            .ConfigureAwait(false);
 
         // Assert
         Assert.Equal(idExpected, result);
     }
 
     [Fact]
-    public   void DeleteCompany_Should_Throw_NotFoundException_When_CompanyId_Not_Exists()
+    public void DeleteCompany_Should_Throw_NotFoundException_When_CompanyId_Not_Exists()
     {
         // Arrange
         var companyRepositoryMock = new Mock<ICompanyRepository>();
@@ -97,11 +98,20 @@ public class CompanyServiceTest
         var companyIdToDelete = 1;
 
         // Act
-        Assert.ThrowsAsync< NotFoundException>( ()=>  companyService.DeleteCompany(companyIdToDelete));
-        
+        Assert.ThrowsAsync<NotFoundException>(() => companyService.DeleteCompany(companyIdToDelete));
+
         companyRepositoryMock.Verify(x => x.DeleteCompany(It.IsAny<Company>()), Times.Never);
 
         // Collections - Fluent Assertions https://bit.ly/3i55RT2
     }
+
+    /*
+      __________  ____  ____ 
+     /_  __/ __ \/ __ \/ __ \
+      / / / / / / / / / / / /
+     / / / /_/ / /_/ / /_/ / 
+    /_/  \____/_____/\____/  
+     */
+    // TODO: Add a test for ValidationException if companyDto.Name is null
 
 }
