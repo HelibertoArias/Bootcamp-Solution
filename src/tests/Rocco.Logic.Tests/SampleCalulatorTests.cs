@@ -23,16 +23,44 @@ public class SampleCalulatorTests
     {
         // Arrange
         var sut = new SimpleCalculator();
-
-        // Act
         int a = 1;
         int b = 2;
+
+        // Act
+
         var result = sut.SumPositiveNumbers(a, b);
         var expected = 3;
 
         // Assert
         Assert.Equal(expected, result);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     [Fact]
     public void SumPositiveNumbers_Should_Throw_ArgumentException_With_Negative_Values()
@@ -47,6 +75,35 @@ public class SampleCalulatorTests
         // Assert
         Assert.Throws<ArgumentException>(() => sut.SumPositiveNumbers(a, b));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     [Fact]
     public void SumBasic_Should_Sum_Negative_Positive_Values()
@@ -64,6 +121,39 @@ public class SampleCalulatorTests
         // Assert
         Assert.Equal(expected, result);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     [Theory]
     [InlineData(0, 0, 0)]
@@ -84,6 +174,43 @@ public class SampleCalulatorTests
         // Assert
         Assert.Equal(expected, result);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     [Theory]
     [SumComplexData]

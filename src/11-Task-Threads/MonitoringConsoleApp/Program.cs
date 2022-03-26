@@ -3,7 +3,7 @@ using static System.Console;
 
 
 
-int[] numbers = Enumerable.Range(start: 1, count: 50_000).ToArray();
+int[] numbers = Enumerable.Range(start: 1, count: 1_000).ToArray();
 
 
 //=============================================================================
@@ -13,15 +13,15 @@ WriteLine("\n//=================================================================
 WriteLine("// Using string with + ");
 WriteLine("//=============================================================================");
 
-Recorder.Start();
+//Recorder.Start();
 
-string s = string.Empty; // i.e. "";
+//string s = string.Empty; // i.e. "";
 
-for (int i = 0; i < numbers.Length; i++)
-{
-    s += numbers[i] + ", ";
-}
-Recorder.Stop();
+//for (int i = 0; i < numbers.Length; i++)
+//{
+//    s += numbers[i] + ", ";
+//}
+//Recorder.Stop();
 
 
 
@@ -31,14 +31,14 @@ Recorder.Stop();
 //WriteLine("//=============================================================================");
 
 
-//Recorder.Start();
+Recorder.Start();
 
-//System.Text.StringBuilder builder = new();
+System.Text.StringBuilder builder = new();
 
-//for (int i = 0; i < numbers.Length; i++)
-//{
-//    builder.Append(numbers[i]);
-//    builder.Append(", ");
-//}
-//Recorder.Stop();
+for (int i = 0; i < numbers.Length; i++)
+{
+    builder.Append(numbers[i]);
+    builder.Append(", ");
+}
+Recorder.Stop();
 

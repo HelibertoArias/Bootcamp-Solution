@@ -26,11 +26,11 @@ builder.Services.AddSingleton<CompanyMessageService>();
 builder.Services.AddGraphQL(options =>
 {
     options.EnableMetrics = true;
-    
+
 
 })
     .AddGraphTypes(ServiceLifetime.Scoped)
- 
+
 
 .AddSystemTextJson()
 .AddErrorInfoProvider(opt =>
@@ -66,7 +66,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GraphQLNetExample v1"));
 
-  
+
 }
 
 app.UseHttpsRedirection();
